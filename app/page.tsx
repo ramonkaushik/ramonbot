@@ -64,10 +64,10 @@ export default function Home() {
 
   // Object organizing technical skills by category
   const skills = {
-    "GenAI Tools": ["GitHub Copilot", "ChatGPT", "Llama"],
     "Languages": ["Java", "Python", "JavaScript", "C++", "SQL"],
     "Frameworks": ["Spring Boot", "React", "Next.js", "Flask", ".NET"],
-    "DevOps": ["Docker", "Kubernetes", "Jenkins", "Ansible", "Vagrant"],
+    "DevOps": ["Docker", "Artifactory", "Jenkins", "Ansible", "Vagrant"],
+    "GenAI Tools": ["GitHub Copilot", "ChatGPT", "Llama"],
     "Cloud & Data": ["AWS Lambda", "Azure ML", "MongoDB", "PostgreSQL"],
   };
 
@@ -278,19 +278,15 @@ export default function Home() {
           </Badge>
           {/* Main headline */}
           <h2 className="hero-title text-4xl md:text-6xl font-bold tracking-tight">
-            Building GenAI-Augmented Developer Experiences
+            Developer Experience Focused Full-Stack Engineer
           </h2>
           {/* Subtitle describing expertise */}
           <p className="hero-description text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Platform engineer specializing in developer tooling, GenAI workflows, and cloud-native systems. 
-            Daily user of GitHub Copilot, focused on making engineers more productive.
+            Full-Stack Engineer specializing in backend development, developer tooling, and cloud-native systems. 
+            Lover of Java, Python, and JavaScript. I love making developers more productive.
           </p>
           {/* CTA buttons */}
           <div className="hero-buttons flex gap-4 justify-center flex-wrap">
-            <Button size="lg" className="gap-2">
-              <Mail className="w-4 h-4" />
-              kaushikramon@gmail.com
-            </Button>
             <Button variant="outline" size="lg" className="gap-2">
               <Github className="w-4 h-4" />
               GitHub
@@ -304,7 +300,7 @@ export default function Home() {
       </section>
 
       {/* About section - brief biography */}
-      <section id="about" className="mx-auto max-w-6xl px-6 py-16 w-full">
+      <section id="about" className="mx-auto max-w-6xl px-6 py-1 w-full">
         <Card ref={aboutRef} className="border-2">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
@@ -367,7 +363,7 @@ export default function Home() {
       </section>
 
       {/* Skills section - technical proficiencies organized by category */}
-      <section id="skills" ref={skillsRef} className="mx-auto max-w-6xl px-6 py-16 w-full">
+      <section id="skills" ref={skillsRef} className="mx-auto max-w-6xl px-6 py-1 w-full">
         <h3 className="text-3xl font-bold mb-8">Skills & Technologies</h3>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {/* Map through skills object and create a card for each category */}
@@ -420,7 +416,7 @@ export default function Home() {
       </section>
 
       {/* Interests section - personal hobbies and interests */}
-      <section ref={interestsRef} className="mx-auto max-w-6xl px-6 py-16 w-full">
+      <section ref={interestsRef} className="mx-auto max-w-6xl px-6 py-1 w-full">
         <Card className="bg-muted/50">
           <CardHeader>
             <CardTitle>Beyond Code</CardTitle>
@@ -454,9 +450,6 @@ export default function Home() {
               <Button size="lg" className="gap-2">
                 <Mail className="w-4 h-4" />
                 kaushikramon@gmail.com
-              </Button>
-              <Button variant="outline" size="lg">
-                856-803-6434
               </Button>
             </div>
           </CardContent>
