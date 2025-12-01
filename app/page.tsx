@@ -25,6 +25,7 @@ export default function Home() {
   const contactRef = useRef(null);
   const heroRef = useRef(null);
   const headerRef = useRef(null);
+  const projectsRef = useRef(null);
 
   // Array of work experience data with company, role, and key achievements
   const experience = [
@@ -71,6 +72,16 @@ export default function Home() {
     "Cloud & Data": ["AWS Lambda", "Azure ML", "MongoDB", "PostgreSQL"],
   };
 
+  // Array of project data
+  const projects = [
+    {
+      title: "Portfolio Website",
+      description: "My personal portfolio website showcasing my projects, skills, and experience. Dockerized and optimized for Kubernetes. Animated with GSAP. UI from Assistance from Claude.",
+      technologies: ["Next.js", "Docker", "Kubernetes", "Claude", "GSAP"],
+      link: "https://github.com/ramonkaushik/ramonbot",
+    },
+  ];
+
   // Array of professional certifications with details
   const certifications = [
     { name: "Azure AI Engineer Associate", code: "AI-102", date: "July 2022" },
@@ -97,6 +108,8 @@ export default function Home() {
       { opacity: 1, scale: 1, duration: 0.5 },
       "-=0.3" // Start 0.3s before previous animation ends
     );
+
+    
 
     // Animate hero title sliding up
     tl.fromTo(
@@ -136,6 +149,27 @@ export default function Home() {
           trigger: aboutRef.current, // Element that triggers animation
           start: "top 80%", // Trigger when top of element reaches 80% of viewport
           once: true, // Animation runs only once
+        },
+      }
+    );
+
+    // Skills cards - staggered animation
+    // ... existing skills animation logic ...
+
+    // NEW: Projects cards - staggered animation
+    gsap.fromTo(
+      ".project-card",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: "power2.out",
+        stagger: 0.1, // Staggered delay for each card
+        scrollTrigger: {
+          trigger: projectsRef.current, // Use the new ref
+          start: "top 75%",
+          once: true,
         },
       }
     );
@@ -262,6 +296,7 @@ export default function Home() {
           <div className="flex gap-6 items-center">
             <a href="#about" className="text-sm hover:text-primary transition-colors">About</a>
             <a href="#experience" className="text-sm hover:text-primary transition-colors">Experience</a>
+            <a href="#projects" className="text-sm hover:text-primary transition-colors">Projects</a>
             <a href="#skills" className="text-sm hover:text-primary transition-colors">Skills</a>
             <a href="#contact" className="text-sm hover:text-primary transition-colors">Contact</a>
           </div>
@@ -356,6 +391,42 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* NEW: Projects section - Independent work and personal hacks */}
+      <section id="projects" ref={projectsRef} className="mx-auto max-w-6xl px-6 py-16 w-full">
+        <h3 className="text-3xl font-bold mb-8 flex items-center gap-2">
+          <Code2 className="w-8 h-8" />
+          Selected Projects
+        </h3>
+        <div className="grid gap-6 lg:grid-cols-2">
+          {/* Map through projects array and create a card for each project */}
+          {projects.map((project, idx) => (
+            <Card key={idx} className="project-card hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle className="text-xl">{project.title}</CardTitle>
+                <CardDescription>{project.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex flex-wrap gap-2">
+                  {/* Display technologies as badges */}
+                  {project.technologies.map((tech) => (
+                    <Badge key={tech} variant="default">
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
+                {/* Link to GitHub repository */}
+                <Button variant="outline" className="gap-2" asChild>
+                  <a href={project.link} target="_blank" rel="noopener noreferrer">
+                    <Github className="w-4 h-4" />
+                    View Code
+                  </a>
+                </Button>
               </CardContent>
             </Card>
           ))}
