@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portfolio # name of pod
+spec:
+  replicas: 3 # number of pod replicas
+  selector:
+    matchLabels:
+      app: portfolio
+  template:
+    metadata:
+      labels:
+        app: portfolio
+    spec:
+      containers:
+      - name: portfolio # can be anything
+        image: ramon-portfolio:latest # name of docker image
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV # name of environment
+          value: "production"
+
+        resources:
+          requests: # minimum resources
+            memory: "128Mi" # minimum memory
+            cpu: "100m" # min cpu
+
+          limits: # maximum resources
+            memory: "256Mi" # max memory
+            cpu: "200m" # max cpu
+
+        # REST API Templates for health checks
+        livenessProbe: # check if container is alive
+          httpGet: # HTTP GET request to check container health
+            path: / # endpoint to check
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10  
+          
+        readinessProbe: # check if container is ready to serve traffic
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5

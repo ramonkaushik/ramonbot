@@ -76,8 +76,8 @@ export default function Home() {
   const projects = [
     {
       title: "Portfolio Website",
-      description: "My personal portfolio website showcasing my projects, skills, and experience. Dockerized, optimized for Kubernetes, and deployed through Vercel. Animated with GSAP. UI from Assistance from Claude.",
-      technologies: ["Next.js", "Docker", "Kubernetes", "GSAP", "Vercel", Claude],
+      description: "My personal portfolio website showcasing my projects, skills, and experience. Dockerized, optimized for Kubernetes, and deployed through Vercel. Animated with GSAP. UI assistance from Claude.",
+      technologies: ["Next.js", "Docker", "Kubernetes", "GSAP", "Vercel", "Claude"],
       link: "https://github.com/ramonkaushik/ramonbot",
     },
   ];
