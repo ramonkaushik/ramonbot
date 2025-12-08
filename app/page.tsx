@@ -318,17 +318,21 @@ export default function Home() {
           {/* Subtitle describing expertise */}
           <p className="hero-description text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Full-Stack Engineer specializing in backend development, developer tooling, and cloud-native systems. 
-            Lover of Java, Python, and JavaScript. I love making developers more productive.
+            Lover of Java, Python, JavaScript, and Go. I love making developers more productive.
           </p>
           {/* CTA buttons */}
           <div className="hero-buttons flex gap-4 justify-center flex-wrap">
+              <Button variant="outline" size="lg" className="gap-2">
+                  <a href="https://github.com/ramonkaushik" target="_blank" className="flex items-center gap-2">
+                  <Github className="w-4 h-4" />
+                  GitHub
+                </a>
+              </Button>
             <Button variant="outline" size="lg" className="gap-2">
-              <Github className="w-4 h-4" />
-              GitHub
-            </Button>
-            <Button variant="outline" size="lg" className="gap-2">
-              <Linkedin className="w-4 h-4" />
-              LinkedIn
+                <a href="https://linkedin.com/in/ramonkau" target="_blank" className="flex items-center gap-2">
+                  <Linkedin className="w-4 h-4" />
+                  LinkedIn
+                </a>
             </Button>
           </div>
         </div>
