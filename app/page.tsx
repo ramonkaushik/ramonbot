@@ -35,11 +35,11 @@ export default function Home() {
       period: "May 2023 – Current",
       location: "New York, NY",
       highlights: [
-        "Leveraged GitHub Copilot, Llama, and ChatGPT daily to accelerate development across Java, JavaScript, and Python",
-        "Improved developer experience by provisioning Vagrant/Ansible environments, reducing onboarding by 50%",
         "Engineered FIX to XML converters handling 2,500+ daily transactions ($100M+) with 99.9% uptime",
         "Built full-stack trade delivery system with React.js, Flask, and AWS Lambda deployment",
-      ]
+        "Leveraged AI to accelerate development across Java, JavaScript, and Python systems",
+        "Improved developer experience by provisioning Vagrant/Ansible environments, reducing onboarding by 50%",
+        ]
     },
     {
       company: "Retail Velocity",
@@ -68,7 +68,7 @@ export default function Home() {
     "Languages": ["Java", "Python", "JavaScript", "C++", "SQL"],
     "Frameworks": ["Spring Boot", "React", "Next.js", "Flask", ".NET"],
     "DevOps": ["Docker", "Artifactory", "Jenkins", "Ansible", "Vagrant"],
-    "GenAI Tools": ["GitHub Copilot", "ChatGPT", "Llama"],
+    "AI Tools": ["GitHub Copilot", "ChatGPT", "Claude"],
     "Cloud & Data": ["AWS Lambda", "Azure ML", "MongoDB", "PostgreSQL"],
   };
 
@@ -77,7 +77,7 @@ export default function Home() {
     {
       title: "Portfolio Website",
       description: "My personal portfolio website showcasing my projects, skills, and experience. Dockerized, optimized for Kubernetes, and deployed through Vercel. Animated with GSAP. UI assistance from Claude.",
-      technologies: ["Next.js", "Docker", "Kubernetes", "GSAP", "Vercel", "Claude"],
+      technologies: ["Next.js", "Docker", "Kubernetes", "GSAP", "Vercel", "Claude", "react.js"],
       link: "https://github.com/ramonkaushik/ramonbot",
     },
   ];
@@ -313,12 +313,12 @@ export default function Home() {
           </Badge>
           {/* Main headline */}
           <h2 className="hero-title text-4xl md:text-6xl font-bold tracking-tight">
-            Developer Experience Focused Full-Stack Engineer
+            Fintech Full-Stack Engineer
           </h2>
           {/* Subtitle describing expertise */}
           <p className="hero-description text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Full-Stack Engineer specializing in backend development, developer tooling, and cloud-native systems. 
-            Lover of Java, Python, JavaScript, and Go. I love making developers more productive.
+            Full-Stack Engineer specializing in backend development, sleek frontends, and DevOps pipelines. 
+            Lover of Java, Python, JavaScript, and Go. 
           </p>
           {/* CTA buttons */}
           <div className="hero-buttons flex gap-4 justify-center flex-wrap">
@@ -350,13 +350,11 @@ export default function Home() {
           <CardContent className="space-y-4 text-muted-foreground">
             <p>
               I am a Senior System Engineer at South Street Securities with 4+ years of experience building 
-              cloud-native applications, developer tools, and GenAI-augmented workflows. I work daily with 
-              GitHub Copilot, ChatGPT, and Llama to accelerate development across Java, Python, and JavaScript applications.
+              microservices, unit testing, and building CI/CD pipelines.
             </p>
             <p>
-              My focus is on improving developer experience, whether it is provisioning local development 
-              environments that reduce onboarding time by 50%, or building high-performance systems that 
-              handle millions in transactions with 99.9% uptime.
+              My focuses include backend development, cloud infrastructure, and leveraging AI tools to accelerate development cycles. 
+              I'm passionate about writing clean, maintainable code and mentoring junior engineers.
             </p>
             <p className="font-semibold text-foreground">
               University of Pittsburgh • B.S. Computer Engineering
