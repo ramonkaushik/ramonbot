@@ -55,10 +55,18 @@ export default function Home() {
 
   const projects = [
     {
+      title: "Spotify AI Recommender",
+      description: "AI-powered music discovery combining Spotify's API with GPT-4. Analyzes listening patterns and audio features to generate personalized recommendations with reasoning.",
+      tech: ["Next.js", "TypeScript", "Spotify API", "OpenAI GPT-4"],
+      link: "/projects/spotify-ai",
+      internal: true,
+    },
+    {
       title: "Portfolio",
       description: "This site. Dockerized, optimized for Kubernetes, deployed through Vercel. Animated with GSAP. Designed to get out of the way.",
       tech: ["Next.js", "GSAP", "Docker", "Vercel"],
       link: "https://github.com/ramonkaushik/ramonbot",
+      internal: false,
     },
   ];
 
