@@ -1,50 +1,40 @@
 'use client';
 
-// Import React hooks for managing component state and DOM references
 import { useEffect, useRef } from "react";
-// Import UI components from shadcn/ui library
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-// Import icons from lucide-react icon library
-import { Mail, Github, Linkedin, Award, Briefcase, Code2 } from "lucide-react";
-// Import GSAP animation library and ScrollTrigger plugin
+import { Github, Linkedin, ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
-// Register ScrollTrigger plugin with GSAP to enable scroll-based animations
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  // Create refs to target specific DOM elements for animations
+  const containerRef = useRef(null);
+  const heroRef = useRef(null);
   const aboutRef = useRef(null);
   const experienceRef = useRef(null);
-  const skillsRef = useRef(null);
-  const certsRef = useRef(null);
-  const interestsRef = useRef(null);
-  const contactRef = useRef(null);
-  const heroRef = useRef(null);
-  const headerRef = useRef(null);
   const projectsRef = useRef(null);
+  const skillsRef = useRef(null);
+  const contactRef = useRef(null);
 
-  // Array of work experience data with company, role, and key achievements
   const experience = [
     {
-      company: "South Street Securities - Matrix Applications",
+      company: "South Street Securities",
+      subtitle: "Matrix Applications",
       role: "Senior System Engineer",
-      period: "May 2023 – Current",
+      period: "May 2023 – Present",
       location: "New York, NY",
       highlights: [
         "Engineered FIX to XML converters handling 2,500+ daily transactions ($100M+) with 99.9% uptime",
         "Built full-stack trade delivery system with React.js, Flask, and AWS Lambda deployment",
         "Leveraged AI to accelerate development across Java, JavaScript, and Python systems",
         "Improved developer experience by provisioning Vagrant/Ansible environments, reducing onboarding by 50%",
-        ]
+      ]
     },
     {
       company: "Retail Velocity",
       role: "Implementation Engineer",
-      period: "January 2022 – February 2023",
+      period: "Jan 2022 – Feb 2023",
       location: "Remote",
       highlights: [
         "Transitioned REST APIs to .NET MVC, enhancing performance and scalability",
@@ -53,494 +43,383 @@ export default function Home() {
       ]
     },
     {
-      company: "Alstom/Bombardier",
+      company: "Alstom / Bombardier",
       role: "Software Engineer Co-Op",
-      period: "May 2019 – December 2020",
+      period: "May 2019 – Dec 2020",
       location: "Pittsburgh, PA",
       highlights: [
-        "Developed train propulsion software in C-based environment",
+        "Developed train propulsion software in C-based embedded environment",
       ]
     }
   ];
 
-  // Object organizing technical skills by category
-  const skills = {
-    "Languages": ["Java", "Python", "JavaScript", "C++", "SQL"],
-    "Frameworks": ["Spring Boot", "React", "Next.js", "Flask", ".NET"],
-    "DevOps": ["Docker", "Artifactory", "Jenkins", "Ansible", "Vagrant"],
-    "AI Tools": ["GitHub Copilot", "ChatGPT", "Claude"],
-    "Cloud & Data": ["AWS Lambda", "Azure ML", "MongoDB", "PostgreSQL"],
-  };
-
-  // Array of project data
   const projects = [
     {
-      title: "Portfolio Website",
-      description: "My personal portfolio website showcasing my projects, skills, and experience. Dockerized, optimized for Kubernetes, and deployed through Vercel. Animated with GSAP. UI assistance from Claude.",
-      technologies: ["Next.js", "Docker", "Kubernetes", "GSAP", "Vercel", "Claude", "react.js"],
+      title: "Portfolio",
+      description: "This site. Dockerized, optimized for Kubernetes, deployed through Vercel. Animated with GSAP. Designed to get out of the way.",
+      tech: ["Next.js", "GSAP", "Docker", "Vercel"],
       link: "https://github.com/ramonkaushik/ramonbot",
     },
   ];
 
-  // Array of professional certifications with details
-  const certifications = [
-    { name: "Azure AI Engineer Associate", code: "AI-102", date: "July 2022" },
-    { name: "Azure Fundamentals", code: "AZ-900", date: "June 2022" }
+  const skills = [
+    "Java", "Python", "JavaScript", "C++", "SQL", "Go",
+    "Spring Boot", "React", "Next.js", "Flask", ".NET",
+    "Docker", "Jenkins", "Ansible", "AWS", "Azure ML",
+    "MongoDB", "PostgreSQL", "Copilot", "Claude"
   ];
 
-  // useEffect hook runs animations after component mounts
   useEffect(() => {
-    // Initial page load animations - sequenced for "wow" factor
-    // Create a timeline to coordinate multiple animations
-    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
-    
-    // Animate header sliding down from above
-    tl.fromTo(
-      headerRef.current,
-      { opacity: 0, y: -20 }, // Starting state: invisible, 20px above
-      { opacity: 1, y: 0, duration: 0.6 } // Ending state: visible, normal position
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".fade-in",
+        { opacity: 0 },
+        { opacity: 1, duration: 1.2, ease: "power2.out", stagger: 0.1 }
+      );
+
+      gsap.fromTo(
+        ".hero-text",
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.3 }
+      );
+
+      const sections = [aboutRef, experienceRef, projectsRef, skillsRef, contactRef];
+      sections.forEach((ref) => {
+        if (ref.current) {
+          gsap.fromTo(
+            ref.current,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: ref.current,
+                start: "top 85%",
+                once: true,
+              },
+            }
+          );
+        }
+      });
+
+      gsap.fromTo(
+        ".exp-item",
+        { opacity: 0, x: -20 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: experienceRef.current,
+            start: "top 80%",
+            once: true,
+          },
+        }
+      );
+
+      gsap.fromTo(
+        ".project-card",
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: projectsRef.current,
+            start: "top 80%",
+            once: true,
+          },
+        }
+      );
+
+      gsap.fromTo(
+        ".skill-tag",
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.4,
+          stagger: 0.02,
+          scrollTrigger: {
+            trigger: skillsRef.current,
+            start: "top 80%",
+            once: true,
+          },
+        }
+      );
+
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const ProjectCard = ({ project }: { project: typeof projects[0] }) => {
+    const inner = (
+      <div className="project-card group block p-6 border border-[#333] bg-[#111] hover:border-[#555] hover:bg-[#161616] transition-all duration-300">
+        <div className="flex justify-between items-start mb-4">
+          <h3 className="text-base font-medium text-[#eee]">{project.title}</h3>
+          <ArrowUpRight className="w-4 h-4 text-[#666] group-hover:text-[#aaa] transition-colors shrink-0 ml-4" />
+        </div>
+        <p className="text-sm text-[#999] leading-relaxed mb-5">
+          {project.description}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {project.tech.map((t) => (
+            <span key={t} className="text-xs text-[#888] px-2 py-1 border border-[#333] bg-[#0a0a0a]">
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
     );
 
-    // Animate hero badge with scale effect
-    tl.fromTo(
-      ".hero-badge",
-      { opacity: 0, scale: 0.8 }, // Start small and invisible
-      { opacity: 1, scale: 1, duration: 0.5 },
-      "-=0.3" // Start 0.3s before previous animation ends
-    );
-
-    
-
-    // Animate hero title sliding up
-    tl.fromTo(
-      ".hero-title",
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.7 },
-      "-=0.2"
-    );
-
-    // Animate hero description text
-    tl.fromTo(
-      ".hero-description",
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6 },
-      "-=0.3"
-    );
-
-    // Animate hero buttons appearing
-    tl.fromTo(
-      ".hero-buttons",
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6 },
-      "-=0.2"
-    );
-
-    // About section - triggers when scrolled into view
-    gsap.fromTo(
-      aboutRef.current,
-      { opacity: 0, y: 30, scale: 0.98 }, // Start slightly below and smaller
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: aboutRef.current, // Element that triggers animation
-          start: "top 80%", // Trigger when top of element reaches 80% of viewport
-          once: true, // Animation runs only once
-        },
-      }
-    );
-
-    // Skills cards - staggered animation
-    // ... existing skills animation logic ...
-
-    // NEW: Projects cards - staggered animation
-    gsap.fromTo(
-      ".project-card",
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        ease: "power2.out",
-        stagger: 0.1, // Staggered delay for each card
-        scrollTrigger: {
-          trigger: projectsRef.current, // Use the new ref
-          start: "top 75%",
-          once: true,
-        },
-      }
-    );
-
-    // Experience cards - animate with stagger (delay between each)
-    gsap.fromTo(
-      ".experience-card",
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        ease: "power2.out",
-        stagger: 0.12, // 0.12s delay between each card
-        scrollTrigger: {
-          trigger: experienceRef.current,
-          start: "top 75%",
-          once: true,
-        },
-      }
-    );
-
-    // Skills cards - staggered animation
-    gsap.fromTo(
-      ".skill-card",
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power2.out",
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: skillsRef.current,
-          start: "top 75%",
-          once: true,
-        },
-      }
-    );
-
-    // Certifications slide in from left
-    gsap.fromTo(
-      ".cert-card-left",
-      { opacity: 0, x: -40 }, // Start off-screen to the left
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.7,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: certsRef.current,
-          start: "top 75%",
-          once: true,
-        },
-      }
-    );
-
-    // Certifications slide in from right
-    gsap.fromTo(
-      ".cert-card-right",
-      { opacity: 0, x: 40 }, // Start off-screen to the right
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.7,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: certsRef.current,
-          start: "top 75%",
-          once: true,
-        },
-      }
-    );
-
-    // Interests section - simple fade in
-    gsap.fromTo(
-      interestsRef.current,
-      { opacity: 0 },
-      {
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: interestsRef.current,
-          start: "top 80%",
-          once: true,
-        },
-      }
-    );
-
-    // Contact section - fade up
-    gsap.fromTo(
-      contactRef.current,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: contactRef.current,
-          start: "top 80%",
-          once: true,
-        },
-      }
-    );
-
-    // Cleanup function - removes all ScrollTrigger animations when component unmounts
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, []); // Empty dependency array means this runs once on mount
+    if (project.internal) {
+      return <Link href={project.link}>{inner}</Link>;
+    }
+    return <a href={project.link} target="_blank" rel="noopener noreferrer">{inner}</a>;
+  };
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-background to-muted/20">
-      {/* Header - sticky navigation bar */}
-      <header ref={headerRef} className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          {/* Logo/Name with gradient text effect */}
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            Ramon Kaushik
-          </h1>
-          {/* Navigation links */}
-          <div className="flex gap-6 items-center">
-            <a href="#about" className="text-sm hover:text-primary transition-colors">About</a>
-            <a href="#experience" className="text-sm hover:text-primary transition-colors">Experience</a>
-            <a href="#projects" className="text-sm hover:text-primary transition-colors">Projects</a>
-            <a href="#skills" className="text-sm hover:text-primary transition-colors">Skills</a>
-            <a href="#contact" className="text-sm hover:text-primary transition-colors">Contact</a>
-          </div>
+    <div ref={containerRef} className="min-h-screen bg-[#0a0a0a] text-[#eee] selection:bg-[#eee] selection:text-[#0a0a0a]">
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
+        
+        :root {
+          --black: #0a0a0a;
+          --white: #eee;
+          --gray-light: #bbb;
+          --gray: #999;
+          --gray-mid: #777;
+          --gray-dark: #555;
+          --border: #333;
+          --border-light: #444;
+        }
+
+        body {
+          background: var(--black);
+          font-family: 'IBM Plex Mono', monospace;
+          font-size: 14px;
+          letter-spacing: 0.01em;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        .serif {
+          font-family: 'Instrument Serif', serif;
+        }
+
+        ::-webkit-scrollbar {
+          width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+          background: var(--black);
+        }
+        ::-webkit-scrollbar-thumb {
+          background: var(--border);
+          border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: var(--border-light);
+        }
+
+        .noise {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          opacity: 0.02;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+          z-index: 1000;
+        }
+
+        /* Removed scanlines for cleaner readability */
+
+        /* Focus states for accessibility */
+        a:focus-visible, button:focus-visible {
+          outline: 2px solid #888;
+          outline-offset: 2px;
+        }
+      `}</style>
+
+      <div className="noise" />
+
+      {/* Header */}
+      <header className="fade-in fixed top-0 left-0 right-0 z-50 px-6 py-5 flex justify-between items-center mix-blend-difference">
+        <span className="text-sm tracking-wide font-medium">RK</span>
+        <nav className="flex gap-8">
+          {["work", "projects", "contact"].map((item) => (
+            <a 
+              key={item} 
+              href={`#${item}`}
+              className="text-sm tracking-wide text-[#999] hover:text-[#eee] transition-colors"
+            >
+              {item}
+            </a>
+          ))}
         </nav>
       </header>
 
-      {/* Hero section - main landing area */}
-      <section ref={heroRef} className="flex flex-1 items-center justify-center px-6 py-24 md:py-32">
-        <div className="max-w-3xl text-center space-y-6">
-          {/* Badge showing current role */}
-          <Badge variant="secondary" className="hero-badge px-4 py-1">
-            <Code2 className="w-3 h-3 mr-2" />
-            Senior System Engineer
-          </Badge>
-          {/* Main headline */}
-          <h2 className="hero-title text-4xl md:text-6xl font-bold tracking-tight">
-            Fintech Full-Stack Engineer
-          </h2>
-          {/* Subtitle describing expertise */}
-          <p className="hero-description text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Full-Stack Engineer specializing in backend development, sleek frontends, and DevOps pipelines. 
-            Lover of Java, Python, JavaScript, and Go. 
+      {/* Hero */}
+      <section ref={heroRef} className="min-h-screen flex flex-col justify-end px-6 pb-24 pt-32">
+        <div className="max-w-5xl">
+          <p className="fade-in text-sm text-[#999] mb-6 tracking-wide">
+            Senior System Engineer, New York
           </p>
-          {/* CTA buttons */}
-          <div className="hero-buttons flex gap-4 justify-center flex-wrap">
-              <Button variant="outline" size="lg" className="gap-2">
-                  <a href="https://github.com/ramonkaushik" target="_blank" className="flex items-center gap-2">
-                  <Github className="w-4 h-4" />
-                  GitHub
-                </a>
-              </Button>
-            <Button variant="outline" size="lg" className="gap-2">
-                <a href="https://linkedin.com/in/ramonkau" target="_blank" className="flex items-center gap-2">
-                  <Linkedin className="w-4 h-4" />
-                  LinkedIn
-                </a>
-            </Button>
+          <h1 className="hero-text serif text-[clamp(3rem,12vw,9rem)] leading-[0.9] tracking-tight font-normal text-[#fff]">
+            Ramon<br />
+            <span className="italic">Kaushik</span>
+          </h1>
+          <div className="hero-text mt-12 flex gap-8 text-sm text-[#999]">
+            <a href="https://github.com/ramonkaushik" target="_blank" className="flex items-center gap-2 hover:text-[#eee] transition-colors">
+              GitHub <ArrowUpRight className="w-4 h-4" />
+            </a>
+            <a href="https://linkedin.com/in/ramonkau" target="_blank" className="flex items-center gap-2 hover:text-[#eee] transition-colors">
+              LinkedIn <ArrowUpRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* About section - brief biography */}
-      <section id="about" className="mx-auto max-w-6xl px-6 py-1 w-full">
-        <Card ref={aboutRef} className="border-2">
-          <CardHeader>
-            <CardTitle className="text-2xl flex items-center gap-2">
-              <Briefcase className="w-6 h-6" />
-              About Me
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 text-muted-foreground">
-            <p>
-              I am a Senior System Engineer at South Street Securities with 4+ years of experience building 
-              microservices, unit testing, and building CI/CD pipelines.
+      {/* About */}
+      <section id="info" ref={aboutRef} className="px-6 py-32 border-t border-[#222]">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-3">
+            <span className="text-sm text-[#888] tracking-wide">Info</span>
+          </div>
+          <div className="md:col-span-9">
+            <p className="text-xl leading-relaxed text-[#ccc] max-w-2xl">
+              Backend systems, cloud infrastructure, AI tooling. 
+              Building things that work and stay working. 
+              4+ years shipping production code.
             </p>
-            <p>
-              My focuses include backend development, cloud infrastructure, and leveraging AI tools to accelerate development cycles. 
-              I'm passionate about writing clean, maintainable code and mentoring junior engineers.
+            <p className="text-xl leading-relaxed text-[#ccc] max-w-2xl mt-6">
+              Previously embedded systems, now fintech. 
+              University of Pittsburgh, Computer Engineering.
             </p>
-            <p className="font-semibold text-foreground">
-              University of Pittsburgh • B.S. Computer Engineering
-            </p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </section>
 
-      {/* Experience section - work history */}
-      <section id="experience" ref={experienceRef} className="mx-auto max-w-6xl px-6 py-16 w-full">
-        <h3 className="text-3xl font-bold mb-8">Experience</h3>
-        <div className="space-y-6">
-          {/* Map through experience array and create a card for each job */}
-          {experience.map((job, idx) => (
-            <Card key={idx} className="experience-card hover:shadow-lg transition-shadow">
-              <CardHeader>
-                {/* Job title and company on left, dates and location on right */}
-                <div className="flex justify-between items-start flex-wrap gap-2">
-                  <div>
-                    <CardTitle className="text-xl">{job.role}</CardTitle>
-                    <CardDescription className="text-base">{job.company}</CardDescription>
-                  </div>
-                  <div className="text-right text-sm text-muted-foreground">
-                    <div>{job.period}</div>
-                    <div>{job.location}</div>
-                  </div>
+      {/* Experience */}
+      <section id="work" ref={experienceRef} className="px-6 py-32 border-t border-[#222]">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-3">
+            <span className="text-sm text-[#888] tracking-wide">Experience</span>
+          </div>
+          <div className="md:col-span-9 space-y-20">
+            {experience.map((job, idx) => (
+              <div key={idx} className="exp-item">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-1 mb-1">
+                  <h3 className="text-lg font-medium text-[#eee]">
+                    {job.company}
+                    {job.subtitle && <span className="text-[#888] font-normal"> / {job.subtitle}</span>}
+                  </h3>
+                  <span className="text-sm text-[#888]">{job.period}</span>
                 </div>
-              </CardHeader>
-              <CardContent>
-                {/* Bullet points of job highlights */}
-                <ul className="space-y-2 text-sm text-muted-foreground">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-1 mb-6">
+                  <p className="text-base text-[#aaa]">{job.role}</p>
+                  <span className="text-sm text-[#777]">{job.location}</span>
+                </div>
+                <ul className="space-y-3">
                   {job.highlights.map((highlight, i) => (
-                    <li key={i} className="flex gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      <span>{highlight}</span>
+                    <li key={i} className="text-base text-[#999] leading-relaxed pl-4 border-l-2 border-[#333]">
+                      {highlight}
                     </li>
                   ))}
                 </ul>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* NEW: Projects section - Independent work and personal hacks */}
-      <section id="projects" ref={projectsRef} className="mx-auto max-w-6xl px-6 py-16 w-full">
-        <h3 className="text-3xl font-bold mb-8 flex items-center gap-2">
-          <Code2 className="w-8 h-8" />
-          Selected Projects
-        </h3>
-        <div className="grid gap-6 lg:grid-cols-2">
-          {/* Map through projects array and create a card for each project */}
-          {projects.map((project, idx) => (
-            <Card key={idx} className="project-card hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-xl">{project.title}</CardTitle>
-                <CardDescription>{project.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex flex-wrap gap-2">
-                  {/* Display technologies as badges */}
-                  {project.technologies.map((tech) => (
-                    <Badge key={tech} variant="default">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-                {/* Link to GitHub repository */}
-                <Button variant="outline" className="gap-2" asChild>
-                  <a href={project.link} target="_blank" rel="noopener noreferrer">
-                    <Github className="w-4 h-4" />
-                    View Code
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+      {/* Projects */}
+      <section id="projects" ref={projectsRef} className="px-6 py-32 border-t border-[#222]">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-3">
+            <span className="text-sm text-[#888] tracking-wide">Projects</span>
+          </div>
+          <div className="md:col-span-9 grid gap-4 md:grid-cols-2">
+            {projects.map((project, idx) => (
+              <ProjectCard key={idx} project={project} />
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Skills section - technical proficiencies organized by category */}
-      <section id="skills" ref={skillsRef} className="mx-auto max-w-6xl px-6 py-1 w-full">
-        <h3 className="text-3xl font-bold mb-8">Skills & Technologies</h3>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {/* Map through skills object and create a card for each category */}
-          {Object.entries(skills).map(([category, items]) => (
-            <Card key={category} className="skill-card">
-              <CardHeader>
-                <CardTitle className="text-lg">{category}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {/* Display skills as badges */}
-                <div className="flex flex-wrap gap-2">
-                  {items.map((skill) => (
-                    <Badge key={skill} variant="secondary">
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Certifications section - professional credentials */}
-      <section ref={certsRef} className="mx-auto max-w-6xl px-6 py-16 w-full">
-        <h3 className="text-3xl font-bold mb-8 flex items-center gap-2">
-          <Award className="w-8 h-8" />
-          Certifications
-        </h3>
-        <div className="grid gap-6 md:grid-cols-2">
-          {/* Map through certifications and create a card for each */}
-          {certifications.map((cert, idx) => (
-            <Card key={cert.code} className={`border-2 ${idx === 0 ? 'cert-card-left' : 'cert-card-right'}`}>
-              <CardHeader>
-                <CardTitle className="text-lg">{cert.name}</CardTitle>
-                <CardDescription>Microsoft Certified • {cert.code}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">Earned {cert.date}</p>
-                {/* Show detailed description for AI-102 cert */}
-                {cert.code === "AI-102" && (
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Computer vision, NLP, knowledge mining, and conversational AI solutions
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Interests section - personal hobbies and interests */}
-      <section ref={interestsRef} className="mx-auto max-w-6xl px-6 py-1 w-full">
-        <Card className="bg-muted/50">
-          <CardHeader>
-            <CardTitle>Beyond Code</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {/* Display interests as badge tags */}
-            <div className="flex flex-wrap gap-2">
-              {["Chess", "Music Production", "DJing", "Coffee", "Basketball", "Fashion", 
-                "Design", "Hiking", "Synthesizers", "Adobe Suite"].map((interest) => (
-                <Badge key={interest} variant="outline">
-                  {interest}
-                </Badge>
+      {/* Skills */}
+      <section ref={skillsRef} className="px-6 py-32 border-t border-[#222]">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-3">
+            <span className="text-sm text-[#888] tracking-wide">Stack</span>
+          </div>
+          <div className="md:col-span-9">
+            <div className="flex flex-wrap gap-x-6 gap-y-3">
+              {skills.map((skill) => (
+                <span key={skill} className="skill-tag text-base text-[#999]">
+                  {skill}
+                </span>
               ))}
             </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Contact CTA section - encourage reaching out */}
-      <section id="contact" className="mx-auto max-w-4xl px-6 py-20 w-full text-center">
-        <Card ref={contactRef} className="border-2 border-primary/20">
-          <CardHeader>
-            <CardTitle className="text-3xl">Let us Build Something Together</CardTitle>
-            <CardDescription className="text-base">
-              Interested in discussing developer experience, GenAI tools, or platform engineering?
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {/* Contact buttons with email and phone */}
-            <div className="flex gap-4 justify-center flex-wrap">
-              <Button size="lg" className="gap-2">
-                <Mail className="w-4 h-4" />
-                kaushikramon@gmail.com
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Footer - copyright and social links */}
-      <footer className="border-t mt-20 bg-muted/30">
-        <div className="mx-auto max-w-6xl px-6 py-8 flex justify-between items-center text-sm text-muted-foreground">
-          <p>© 2025 Ramon Kaushik. All rights reserved.</p>
-          {/* Social media and contact links */}
-          <div className="flex gap-4">
-            <a href="mailto:kaushikramon@gmail.com" className="hover:text-primary transition-colors">
-              Email
-            </a>
-            <a href="https://www.github.com/ramonkaushik" className="hover:text-primary transition-colors">GitHub</a>
-            <a href="https://www.linkedin.com/in/ramonkau" className="hover:text-primary transition-colors">LinkedIn</a>
           </div>
+        </div>
+      </section>
+
+      {/* Certifications */}
+      <section className="px-6 py-32 border-t border-[#222]">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-3">
+            <span className="text-sm text-[#888] tracking-wide">Certifications</span>
+          </div>
+          <div className="md:col-span-9 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1">
+              <span className="text-base text-[#bbb]">Azure AI Engineer Associate</span>
+              <span className="text-sm text-[#888]">AI-102 · July 2022</span>
+            </div>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1">
+              <span className="text-base text-[#bbb]">Azure Fundamentals</span>
+              <span className="text-sm text-[#888]">AZ-900 · June 2022</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" ref={contactRef} className="px-6 py-32 border-t border-[#222]">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-3">
+            <span className="text-sm text-[#888] tracking-wide">Contact</span>
+          </div>
+          <div className="md:col-span-9">
+            <a 
+              href="mailto:kaushikramon@gmail.com" 
+              className="serif text-3xl md:text-4xl italic text-[#eee] hover:text-[#999] transition-colors"
+            >
+              kaushikramon@gmail.com
+            </a>
+            <div className="mt-8 flex gap-6 text-sm text-[#999]">
+              <a href="https://github.com/ramonkaushik" target="_blank" className="flex items-center gap-2 hover:text-[#eee] transition-colors">
+                GitHub <ArrowUpRight className="w-4 h-4" />
+              </a>
+              <a href="https://linkedin.com/in/ramonkau" target="_blank" className="flex items-center gap-2 hover:text-[#eee] transition-colors">
+                LinkedIn <ArrowUpRight className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="px-6 py-8 border-t border-[#222]">
+        <div className="max-w-5xl mx-auto flex justify-between items-center text-sm text-[#666]">
+          <span>© 2025</span>
+          <span>NYC</span>
         </div>
       </footer>
     </div>
