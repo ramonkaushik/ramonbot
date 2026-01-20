@@ -55,6 +55,13 @@ export default function Home() {
 
   const projects = [
     {
+      title: "\"Not a Financial Advisor\" Agent",
+      description: "AI agent that can help you understand financial decisions and the market. Built with Langchain and gets news from Alpha Vantage API",
+      tech: ["LangChain", "GPT-4", "Alpha Vantage API", "Next.js"],
+      link: "/projects/finance-agent",
+      internal: true,
+    },
+    {
       title: "Portfolio",
       description: "This site. Dockerized, optimized for Kubernetes, deployed through Vercel. Animated with GSAP. Designed to get out of the way.",
       tech: ["Next.js", "GSAP", "Docker", "Vercel"],
@@ -201,6 +208,10 @@ export default function Home() {
           --border-light: #444;
         }
 
+        html {
+          scroll-behavior: smooth;
+        }
+
         body {
           background: var(--black);
           font-family: 'IBM Plex Mono', monospace;
@@ -254,10 +265,14 @@ export default function Home() {
       <header className="fade-in fixed top-0 left-0 right-0 z-50 px-6 py-5 flex justify-between items-center mix-blend-difference">
         <span className="text-sm tracking-wide font-medium">RK</span>
         <nav className="flex gap-8">
-          {["work", "projects", "contact"].map((item) => (
+          {["about", "work", "projects", "contact"].map((item) => (
             <a 
               key={item} 
               href={`#${item}`}
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById(item)?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="text-sm tracking-wide text-[#999] hover:text-[#eee] transition-colors"
             >
               {item}
@@ -288,7 +303,7 @@ export default function Home() {
       </section>
 
       {/* About */}
-      <section id="info" ref={aboutRef} className="px-6 py-32 border-t border-[#222]">
+      <section id="about" ref={aboutRef} className="px-6 py-32 border-t border-[#222]">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
           <div className="md:col-span-3">
             <span className="text-sm text-[#888] tracking-wide">Info</span>
@@ -358,7 +373,7 @@ export default function Home() {
       <section ref={skillsRef} className="px-6 py-32 border-t border-[#222]">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
           <div className="md:col-span-3">
-            <span className="text-sm text-[#888] tracking-wide">Stack</span>
+            <span className="text-sm text-[#888] tracking-wide">Skills</span>
           </div>
           <div className="md:col-span-9">
             <div className="flex flex-wrap gap-x-6 gap-y-3">
