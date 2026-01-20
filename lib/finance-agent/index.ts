@@ -16,6 +16,7 @@
 
 import { ChatOpenAI } from '@langchain/openai';
 import { HumanMessage, SystemMessage, AIMessage, ToolMessage } from '@langchain/core/messages';
+import { StructuredTool } from '@langchain/core/tools';
 import { FINANCE_AGENT_SYSTEM_PROMPT } from './prompts';
 import {
   createStockQuoteTool,
@@ -123,7 +124,7 @@ export async function runFinanceAgent(query: string): Promise<AgentResponse> {
           console.log(`[FinanceAgent] Calling: ${toolCall.name}`);
           
           try {
-            const result = await tool.invoke(toolCall.args);
+            const result = await (tool as StructuredTool).invoke(toolCall.args);
             return new ToolMessage({
               content: result,
               tool_call_id: toolCall.id!,
