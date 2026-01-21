@@ -481,7 +481,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="px-6 py-8 border-t border-[#222]">
         <div className="max-w-5xl mx-auto flex justify-between items-center text-sm text-[#666]">
-          <span>© 2025</span>
+          <span>Ten Toes Down © 2026</span>
           <span>NYC</span>
         </div>
       </footer>
