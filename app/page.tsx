@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Github, Linkedin, ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -78,88 +78,119 @@ export default function Home() {
   ];
 
   useEffect(() => {
+    // Configure GSAP for optimal performance
+    gsap.config({
+      force3D: true,
+    });
+
     const ctx = gsap.context(() => {
+      // Initial fade in - use autoAlpha for GPU acceleration
       gsap.fromTo(
         ".fade-in",
-        { opacity: 0 },
-        { opacity: 1, duration: 1.2, ease: "power2.out", stagger: 0.1 }
+        { autoAlpha: 0 },
+        { 
+          autoAlpha: 1, 
+          duration: 1.4, 
+          ease: "power3.out", 
+          stagger: 0.08,
+          clearProps: "transform"
+        }
       );
 
+      // Hero text - smooth slide up with GPU-accelerated transform
       gsap.fromTo(
         ".hero-text",
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.3 }
+        { yPercent: 20, autoAlpha: 0 },
+        { 
+          yPercent: 0, 
+          autoAlpha: 1, 
+          duration: 1.2, 
+          ease: "expo.out", 
+          delay: 0.2,
+          clearProps: "transform"
+        }
       );
 
-      const sections = [aboutRef, experienceRef, projectsRef, skillsRef, contactRef];
+      // Sections - elegant fade with subtle movement
+      const sections = [aboutRef, experienceRef, skillsRef, contactRef];
       sections.forEach((ref) => {
         if (ref.current) {
           gsap.fromTo(
             ref.current,
-            { opacity: 0, y: 30 },
+            { autoAlpha: 0, yPercent: 3 },
             {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
+              autoAlpha: 1,
+              yPercent: 0,
+              duration: 1,
               ease: "power2.out",
               scrollTrigger: {
                 trigger: ref.current,
-                start: "top 85%",
+                start: "top 88%",
                 once: true,
               },
+              clearProps: "transform"
             }
           );
         }
       });
 
+      // Experience items - staggered slide in
       gsap.fromTo(
         ".exp-item",
-        { opacity: 0, x: -20 },
+        { autoAlpha: 0, xPercent: -2 },
         {
-          opacity: 1,
-          x: 0,
-          duration: 0.6,
-          ease: "power2.out",
-          stagger: 0.15,
+          autoAlpha: 1,
+          xPercent: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.12,
           scrollTrigger: {
             trigger: experienceRef.current,
-            start: "top 80%",
+            start: "top 82%",
             once: true,
           },
+          clearProps: "transform"
         }
       );
 
+      // Project cards - subtle rise
       gsap.fromTo(
         ".project-card",
-        { opacity: 0, y: 20 },
+        { autoAlpha: 0, yPercent: 8 },
         {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: "power2.out",
-          stagger: 0.1,
+          autoAlpha: 1,
+          yPercent: 0,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.08,
           scrollTrigger: {
             trigger: projectsRef.current,
-            start: "top 80%",
+            start: "top 82%",
             once: true,
           },
+          clearProps: "transform"
         }
       );
 
+      // Skills - fast cascade
       gsap.fromTo(
         ".skill-tag",
-        { opacity: 0 },
+        { autoAlpha: 0, scale: 0.95 },
         {
-          opacity: 1,
-          duration: 0.4,
-          stagger: 0.02,
+          autoAlpha: 1,
+          scale: 1,
+          duration: 0.5,
+          ease: "power2.out",
+          stagger: 0.025,
           scrollTrigger: {
             trigger: skillsRef.current,
-            start: "top 80%",
+            start: "top 82%",
             once: true,
           },
+          clearProps: "transform"
         }
       );
+
 
     }, containerRef);
 
@@ -212,12 +243,25 @@ export default function Home() {
           scroll-behavior: smooth;
         }
 
+        /* Performance optimizations */
+        .fade-in,
+        .hero-text,
+        .exp-item,
+        .project-card,
+        .skill-tag {
+          will-change: transform, opacity;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+
         body {
           background: var(--black);
           font-family: 'IBM Plex Mono', monospace;
           font-size: 14px;
           letter-spacing: 0.01em;
           -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          text-rendering: optimizeLegibility;
         }
 
         .serif {
@@ -261,10 +305,13 @@ export default function Home() {
 
       <div className="noise" />
 
+      {/* Audio element */}
+      
+
       {/* Header */}
       <header className="fade-in fixed top-0 left-0 right-0 z-50 px-6 py-5 flex justify-between items-center mix-blend-difference">
-        <span className="text-sm tracking-wide font-medium">RK</span>
-        <nav className="flex gap-8">
+        <span className="text-sm tracking-wide font-medium bass-reactive-subtle">RK</span>
+        <nav className="flex items-center gap-8">
           {["about", "work", "projects", "contact"].map((item) => (
             <a 
               key={item} 
@@ -287,7 +334,7 @@ export default function Home() {
           <p className="fade-in text-sm text-[#999] mb-6 tracking-wide">
             Senior System Engineer, New York
           </p>
-          <h1 className="hero-text serif text-[clamp(3rem,12vw,9rem)] leading-[0.9] tracking-tight font-normal text-[#fff]">
+          <h1 className="hero-text bass-reactive serif text-[clamp(3rem,12vw,9rem)] leading-[0.9] tracking-tight font-normal text-[#fff]">
             Ramon<br />
             <span className="italic">Kaushik</span>
           </h1>
