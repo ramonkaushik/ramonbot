@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from "react";
-import { Github, Linkedin, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
@@ -16,6 +16,27 @@ export default function Home() {
   const projectsRef = useRef(null);
   const skillsRef = useRef(null);
   const contactRef = useRef(null);
+
+  const [typedText, setTypedText] = useState('');
+  const [typingDone, setTypingDone] = useState(false);
+  const TYPED_FULL = 'software & audio engineer based in nyc';
+
+  useEffect(() => {
+    // Start typing after hero name finishes animating (delay 0.15 + duration 1.0 = ~1.15s)
+    let i = 0;
+    let tick: ReturnType<typeof setInterval>;
+    const start = setTimeout(() => {
+      tick = setInterval(() => {
+        i++;
+        setTypedText(TYPED_FULL.slice(0, i));
+        if (i >= TYPED_FULL.length) {
+          clearInterval(tick);
+          setTypingDone(true);
+        }
+      }, 40);
+    }, 1300);
+    return () => { clearTimeout(start); clearInterval(tick); };
+  }, []);
 
   const experience = [
     {
@@ -55,6 +76,20 @@ export default function Home() {
 
   const projects = [
     {
+      title: "Nets Front Office Tool",
+      description: "Cap & roster intelligence tool for the Brooklyn Nets. Live scenario modeling — release players, sign free agents, and watch the salary cap adjust in real time. Built as a senior full-stack engineering exercise.",
+      tech: ["React", "TypeScript", "Node.js", "SQLite", "Python", "nba_api"],
+      link: "/projects/nets",
+      internal: true,
+    },
+    {
+      title: "Electronic Press Kit",
+      description: "EPK and mastering service page. for for DJs, producers, & labels.",
+      tech: ["GSAP", "Next.js"],
+      link: "/projects/audio-services",
+      internal: true,
+    },
+    {
       title: "\"Not a Financial Advisor\" Agent",
       description: "AI agent that can help you understand financial decisions and the market. Built with Langchain and gets news from Alpha Vantage API",
       tech: ["LangChain", "GPT-4", "Alpha Vantage API", "Next.js"],
@@ -78,141 +113,95 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    // Configure GSAP for optimal performance
-    gsap.config({
-      force3D: true,
-    });
+    gsap.config({ force3D: true, nullTargetWarn: false });
 
     const ctx = gsap.context(() => {
-      // Initial fade in - use autoAlpha for GPU acceleration
-      gsap.fromTo(
-        ".fade-in",
+      // Header — simple fade, no movement
+      gsap.fromTo(".fade-in",
         { autoAlpha: 0 },
-        { 
-          autoAlpha: 1, 
-          duration: 1.4, 
-          ease: "power3.out", 
-          stagger: 0.08,
-          clearProps: "transform"
+        { autoAlpha: 1, duration: 0.9, ease: "power2.out", stagger: 0.05,
+          onComplete() { gsap.set(".fade-in", { clearProps: "will-change" }); }
         }
       );
 
-      // Hero text - smooth slide up with GPU-accelerated transform
-      gsap.fromTo(
-        ".hero-text",
-        { yPercent: 20, autoAlpha: 0 },
-        { 
-          yPercent: 0, 
-          autoAlpha: 1, 
-          duration: 1.2, 
-          ease: "expo.out", 
-          delay: 0.2,
-          clearProps: "transform"
+      // Hero name — translate only transform+opacity, no scale
+      gsap.fromTo(".hero-text",
+        { y: 28, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 1.0, ease: "expo.out", delay: 0.15,
+          onComplete() { gsap.set(".hero-text", { clearProps: "transform,will-change" }); }
         }
       );
 
-      // Sections - elegant fade with subtle movement
+      // Scroll sections — absolute y, not yPercent (more predictable)
       const sections = [aboutRef, experienceRef, skillsRef, contactRef];
       sections.forEach((ref) => {
-        if (ref.current) {
-          gsap.fromTo(
-            ref.current,
-            { autoAlpha: 0, yPercent: 3 },
-            {
-              autoAlpha: 1,
-              yPercent: 0,
-              duration: 1,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: ref.current,
-                start: "top 88%",
-                once: true,
-              },
-              clearProps: "transform"
-            }
-          );
-        }
+        if (!ref.current) return;
+        gsap.fromTo(ref.current,
+          { autoAlpha: 0, y: 22 },
+          {
+            autoAlpha: 1, y: 0, duration: 0.85, ease: "power3.out",
+            onComplete() { gsap.set(ref.current, { clearProps: "transform,will-change" }); },
+            scrollTrigger: { trigger: ref.current, start: "top 88%", once: true },
+          }
+        );
       });
 
-      // Experience items - staggered slide in
-      gsap.fromTo(
-        ".exp-item",
-        { autoAlpha: 0, xPercent: -2 },
+      // Experience items — slide from left
+      gsap.fromTo(".exp-item",
+        { autoAlpha: 0, x: -12 },
         {
-          autoAlpha: 1,
-          xPercent: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          stagger: 0.12,
-          scrollTrigger: {
-            trigger: experienceRef.current,
-            start: "top 82%",
-            once: true,
-          },
-          clearProps: "transform"
+          autoAlpha: 1, x: 0, duration: 0.7, ease: "power3.out", stagger: 0.1,
+          onComplete() { gsap.set(".exp-item", { clearProps: "transform,will-change" }); },
+          scrollTrigger: { trigger: experienceRef.current, start: "top 83%", once: true },
         }
       );
 
-      // Project cards - subtle rise
-      gsap.fromTo(
-        ".project-card",
-        { autoAlpha: 0, yPercent: 8 },
+      // Project cards — rise up
+      gsap.fromTo(".project-card",
+        { autoAlpha: 0, y: 18 },
         {
-          autoAlpha: 1,
-          yPercent: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          stagger: 0.08,
-          scrollTrigger: {
-            trigger: projectsRef.current,
-            start: "top 82%",
-            once: true,
-          },
-          clearProps: "transform"
+          autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.07,
+          onComplete() { gsap.set(".project-card", { clearProps: "transform,will-change" }); },
+          scrollTrigger: { trigger: projectsRef.current, start: "top 83%", once: true },
         }
       );
 
-      // Skills - fast cascade
-      gsap.fromTo(
-        ".skill-tag",
-        { autoAlpha: 0, scale: 0.95 },
+      // Skills — pure fade only, no scale (scale blurs small text)
+      gsap.fromTo(".skill-tag",
+        { autoAlpha: 0 },
         {
-          autoAlpha: 1,
-          scale: 1,
-          duration: 0.5,
-          ease: "power2.out",
-          stagger: 0.025,
-          scrollTrigger: {
-            trigger: skillsRef.current,
-            start: "top 82%",
-            once: true,
-          },
-          clearProps: "transform"
+          autoAlpha: 1, duration: 0.35, ease: "power2.out", stagger: 0.018,
+          scrollTrigger: { trigger: skillsRef.current, start: "top 83%", once: true },
         }
       );
-
-
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
-  const ProjectCard = ({ project }: { project: typeof projects[0] }) => {
+  const ProjectCard = ({ project, idx }: { project: typeof projects[0]; idx: number }) => {
     const inner = (
-      <div className="project-card group block p-6 border border-[#333] bg-[#111] hover:border-[#555] hover:bg-[#161616] transition-all duration-300">
-        <div className="flex justify-between items-start mb-4">
-          <h3 className="text-base font-medium text-[#eee]">{project.title}</h3>
-          <ArrowUpRight className="w-4 h-4 text-[#666] group-hover:text-[#aaa] transition-colors shrink-0 ml-4" />
-        </div>
-        <p className="text-sm text-[#999] leading-relaxed mb-5">
-          {project.description}
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {project.tech.map((t) => (
-            <span key={t} className="text-xs text-[#888] px-2 py-1 border border-[#333] bg-[#0a0a0a]">
-              {t}
-            </span>
-          ))}
+      <div className="project-card group flex gap-6 py-7 border-t border-[#1a1a1a] hover:border-[#2a2a2a] transition-colors duration-300 cursor-pointer">
+        <span className="text-[11px] text-[#2e2e2e] font-mono mt-[3px] shrink-0 w-5 select-none">
+          {String(idx + 1).padStart(2, '0')}
+        </span>
+        <div className="flex-1 min-w-0">
+          <div className="flex justify-between items-start gap-4 mb-2">
+            <h3 className="text-base text-[#ccc] group-hover:text-[#eee] transition-colors duration-200">
+              {project.title}
+            </h3>
+            <ArrowUpRight className="w-4 h-4 text-[#2a2a2a] group-hover:text-[#555] transition-colors duration-200 shrink-0 mt-0.5" />
+          </div>
+          <p className="text-sm text-[#555] leading-relaxed mb-4 group-hover:text-[#666] transition-colors duration-200">
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {project.tech.map((t) => (
+              <span key={t} className="text-[10px] tracking-widest text-[#333] uppercase group-hover:text-[#444] transition-colors duration-200">
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -239,17 +228,12 @@ export default function Home() {
           --border-light: #444;
         }
 
-        html {
-          scroll-behavior: smooth;
-        }
-
-        /* Performance optimizations */
+        /* GPU compositing baseline — no will-change on idle elements */
         .fade-in,
         .hero-text,
         .exp-item,
         .project-card,
         .skill-tag {
-          will-change: transform, opacity;
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
         }
@@ -296,6 +280,24 @@ export default function Home() {
 
         /* Removed scanlines for cleaner readability */
 
+        /* Typing cursor */
+        .type-cursor {
+          display: inline-block;
+          color: #555;
+          margin-left: 1px;
+          animation: cursor-blink 0.9s step-end infinite;
+        }
+        .type-cursor.done {
+          animation: cursor-fade 0.6s ease-out 1s forwards;
+        }
+        @keyframes cursor-blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+        @keyframes cursor-fade {
+          to { opacity: 0; }
+        }
+
         /* Focus states for accessibility */
         a:focus-visible, button:focus-visible {
           outline: 2px solid #888;
@@ -310,7 +312,7 @@ export default function Home() {
 
       {/* Header */}
       <header className="fade-in fixed top-0 left-0 right-0 z-50 px-6 py-5 flex justify-between items-center mix-blend-difference">
-        <span className="text-sm tracking-wide font-medium bass-reactive-subtle">RK</span>
+        <span className="text-sm tracking-wide font-medium">RK</span>
         <nav className="flex items-center gap-8">
           {["about", "work", "projects", "contact"].map((item) => (
             <a 
@@ -320,7 +322,7 @@ export default function Home() {
                 e.preventDefault();
                 document.getElementById(item)?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="text-sm tracking-wide text-[#999] hover:text-[#eee] transition-colors"
+              className="text-sm tracking-wide text-[#999] hover:text-[#eee] transition-colors duration-300"
             >
               {item}
             </a>
@@ -331,20 +333,23 @@ export default function Home() {
       {/* Hero */}
       <section ref={heroRef} className="min-h-screen flex flex-col justify-end px-6 pb-24 pt-32">
         <div className="max-w-5xl">
-          <p className="fade-in text-sm text-[#999] mb-6 tracking-wide">
-            Senior System Engineer, New York
+          <p className="text-sm text-[#999] mb-6 tracking-wide">
+            {typedText}<span className={`type-cursor${typingDone ? ' done' : ''}`}>|</span>
           </p>
-          <h1 className="hero-text bass-reactive serif text-[clamp(3rem,12vw,9rem)] leading-[0.9] tracking-tight font-normal text-[#fff]">
+          <h1 className="hero-text serif text-[clamp(3rem,12vw,9rem)] leading-[0.9] tracking-tight font-normal text-[#fff]">
             Ramon<br />
             <span className="italic">Kaushik</span>
           </h1>
           <div className="hero-text mt-12 flex gap-8 text-sm text-[#999]">
-            <a href="https://github.com/ramonkaushik" target="_blank" className="flex items-center gap-2 hover:text-[#eee] transition-colors">
-              GitHub <ArrowUpRight className="w-4 h-4" />
-            </a>
-            <a href="https://linkedin.com/in/ramonkau" target="_blank" className="flex items-center gap-2 hover:text-[#eee] transition-colors">
-              LinkedIn <ArrowUpRight className="w-4 h-4" />
-            </a>
+            <button
+              onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+              className="flex items-center gap-2 hover:text-[#eee] transition-colors"
+            >
+              software <ArrowUpRight className="w-4 h-4" />
+            </button>
+            <Link href="/projects/audio-services" className="flex items-center gap-2 hover:text-[#eee] transition-colors">
+              music <ArrowUpRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
@@ -408,9 +413,9 @@ export default function Home() {
           <div className="md:col-span-3">
             <span className="text-sm text-[#888] tracking-wide">Projects</span>
           </div>
-          <div className="md:col-span-9 grid gap-4 md:grid-cols-2">
+          <div className="md:col-span-9">
             {projects.map((project, idx) => (
-              <ProjectCard key={idx} project={project} />
+              <ProjectCard key={idx} project={project} idx={idx} />
             ))}
           </div>
         </div>
@@ -485,6 +490,7 @@ export default function Home() {
           <span>NYC</span>
         </div>
       </footer>
+
     </div>
   );
 }

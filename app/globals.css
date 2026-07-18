@@ -120,3 +120,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ── Nets tool animations ───────────────────────────────────────────────── */
+@theme {
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-border-beam: border-beam 12s linear infinite;
+  --animate-gradient: gradient 6s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes border-beam {
+  100% { offset-distance: 100%; }
+}
+
+@keyframes gradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
