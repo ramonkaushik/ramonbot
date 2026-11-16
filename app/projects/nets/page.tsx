@@ -95,7 +95,7 @@ function Section({ title, sub, badge, children, actions }: {
               </span>
             )}
           </div>
-          {sub && <p className="text-[11px] text-zinc-600">{sub}</p>}
+          {sub && <p className="text-[11px] text-zinc-400">{sub}</p>}
         </div>
         {actions}
       </div>
@@ -110,7 +110,7 @@ function FilterSelect({ label, value, onChange, children }: {
 }) {
   return (
     <label className="flex items-center gap-1.5">
-      <span className="text-[10px] uppercase tracking-widest text-zinc-600 font-medium">{label}</span>
+      <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-medium">{label}</span>
       <select
         value={value}
         onChange={e => onChange(e.target.value)}
@@ -194,7 +194,7 @@ export default function NetsPage() {
           <div className="flex items-center gap-4">
             <Link
               href="/#projects"
-              className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-200 transition-colors"
+              className="flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" /> back
             </Link>
@@ -267,7 +267,7 @@ export default function NetsPage() {
                     <button
                       onClick={() => unsignPlayer(r.id)}
                       className="px-2 py-0.5 text-[10px] rounded border border-zinc-700
-                        text-zinc-500 hover:border-zinc-500 hover:text-zinc-300
+                        text-zinc-400 hover:border-zinc-500 hover:text-zinc-200
                         transition-colors whitespace-nowrap"
                     >
                       Undo
@@ -276,7 +276,7 @@ export default function NetsPage() {
                     <button
                       onClick={() => removePlayer(r.id)}
                       className="px-2 py-0.5 text-[10px] rounded border border-transparent
-                        text-zinc-700 hover:border-red-800 hover:text-red-400
+                        text-zinc-400 hover:border-red-800 hover:text-red-400
                         transition-colors whitespace-nowrap"
                     >
                       Release
@@ -286,7 +286,7 @@ export default function NetsPage() {
               />
             )
           }
-          <div className="mt-3 flex flex-wrap gap-4 text-[10px] text-zinc-600">
+          <div className="mt-3 flex flex-wrap gap-4 text-[10px] text-zinc-400">
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-sm bg-amber-950/80 border border-amber-800/40" />Expiring
             </span>

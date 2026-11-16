@@ -135,7 +135,6 @@ export default function FinanceAgent() {
   return (
     <div className="min-h-screen bg-[#050505] text-[#e8e8e8] flex flex-col relative overflow-hidden">
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap');
 
         :root {
           --bg: #050505;
@@ -144,7 +143,7 @@ export default function FinanceAgent() {
           --border-hover: #2a2a2a;
           --text: #e8e8e8;
           --text-muted: #888;
-          --text-dim: #555;
+          --text-dim: #7a7a7a;
           --accent: #10b981;
           --accent-dim: rgba(16, 185, 129, 0.15);
         }
@@ -153,14 +152,14 @@ export default function FinanceAgent() {
         
         body {
           background: var(--bg);
-          font-family: 'IBM Plex Mono', monospace;
+          font-family: var(--font-plex), ui-monospace, monospace;
           font-size: 14px;
-          font-weight: 300;
+          font-weight: 400;
           letter-spacing: 0.02em;
           -webkit-font-smoothing: antialiased;
         }
 
-        .serif { font-family: 'Instrument Serif', serif; }
+        .serif { font-family: var(--font-instrument), Georgia, serif; }
 
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -257,7 +256,7 @@ export default function FinanceAgent() {
 
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 px-8 py-6 flex justify-between items-center bg-[#050505]/80 backdrop-blur-md border-b border-[#111]">
-        <Link href="/" className="flex items-center gap-3 text-sm text-[#666] hover:text-[#aaa] transition-colors duration-300">
+        <Link href="/" className="flex items-center gap-3 text-sm text-[#8a8a8a] hover:text-[#aaa] transition-colors duration-300">
           <ArrowLeft className="w-4 h-4" />
           <span className="tracking-wider">back</span>
         </Link>
@@ -284,7 +283,7 @@ export default function FinanceAgent() {
                 <h2 className="serif text-3xl italic text-[#fff] mb-3">
                   Financial Research Agent
                 </h2>
-                <p className="text-sm text-[#666] mb-10 max-w-md mx-auto">
+                <p className="text-sm text-[#8a8a8a] mb-10 max-w-md mx-auto">
                   Ask me about stocks, companies, and market data. I'll research it for you.
                 </p>
                 
@@ -293,7 +292,7 @@ export default function FinanceAgent() {
                     <button
                       key={idx}
                       onClick={() => handleSuggestion(suggestion.text)}
-                      className="suggestion-card flex items-center gap-4 w-full text-left px-5 py-4 text-sm text-[#777] border border-[#1a1a1a] bg-[#0a0a0a]"
+                      className="suggestion-card flex items-center gap-4 w-full text-left px-5 py-4 text-sm text-[#8a8a8a] border border-[#1a1a1a] bg-[#0a0a0a]"
                     >
                       <suggestion.icon className="w-4 h-4 text-[#10b981] shrink-0" />
                       {suggestion.text}
@@ -301,7 +300,7 @@ export default function FinanceAgent() {
                   ))}
                 </div>
                 
-                <p className="text-xs text-[#444] mt-8">
+                <p className="text-xs text-[#7a7a7a] mt-8">
                   Powered by GPT-4 + Alpha Vantage
                 </p>
               </div>
@@ -312,7 +311,7 @@ export default function FinanceAgent() {
                   key={idx} 
                   className={`p-5 ${message.role === 'user' ? 'message-user' : 'message-assistant'}`}
                 >
-                  <div className="flex items-center gap-2 text-xs text-[#555] mb-3 tracking-wider uppercase">
+                  <div className="flex items-center gap-2 text-xs text-[#7a7a7a] mb-3 tracking-wider uppercase">
                     {message.role === 'user' ? 'You' : 'Agent'}
                   </div>
                   
@@ -330,10 +329,10 @@ export default function FinanceAgent() {
             {/* Current thinking indicator */}
             {currentThought && (
               <div className="message-assistant p-5">
-                <div className="flex items-center gap-2 text-xs text-[#555] mb-3 tracking-wider uppercase">
+                <div className="flex items-center gap-2 text-xs text-[#7a7a7a] mb-3 tracking-wider uppercase">
                   Agent
                 </div>
-                <div className="flex items-center gap-3 text-sm text-[#666]">
+                <div className="flex items-center gap-3 text-sm text-[#8a8a8a]">
                   <div className="flex gap-1">
                     <span className="thinking-dot" />
                     <span className="thinking-dot" />
@@ -362,7 +361,7 @@ export default function FinanceAgent() {
               <button
                 type="submit"
                 disabled={isProcessing || !input.trim()}
-                className="px-5 py-4 bg-[#0a0a0a] border border-[#1a1a1a] text-[#666] hover:text-[#10b981] hover:border-[#10b981] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-300"
+                className="px-5 py-4 bg-[#0a0a0a] border border-[#1a1a1a] text-[#8a8a8a] hover:text-[#10b981] hover:border-[#10b981] disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-300"
               >
                 {isProcessing ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -377,7 +376,7 @@ export default function FinanceAgent() {
 
       {/* Footer */}
       <footer className="px-8 py-5 border-t border-[#111] relative z-10">
-        <div className="max-w-2xl mx-auto flex justify-between items-center text-xs text-[#444] tracking-wide">
+        <div className="max-w-2xl mx-auto flex justify-between items-center text-xs text-[#7a7a7a] tracking-wide">
           <span>Not financial advice · Data from Alpha Vantage</span>
           <span>GPT-4 + LangChain</span>
         </div>

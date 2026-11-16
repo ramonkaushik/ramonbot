@@ -62,7 +62,7 @@ export function SignModal({ player, onConfirm, onCancel }: Props) {
         {/* inputs */}
         <div className="space-y-3 mb-5">
           <div>
-            <label className="block text-[11px] uppercase tracking-wider text-zinc-500 mb-1.5">Annual salary</label>
+            <label className="block text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5">Annual salary</label>
             <div className="flex items-center gap-1.5">
               <span className="text-zinc-400 text-sm font-medium">$</span>
               <input
@@ -75,7 +75,7 @@ export function SignModal({ player, onConfirm, onCancel }: Props) {
                 className="flex-1 rounded-lg px-3 py-2 text-sm text-white
                   border border-zinc-700 focus:border-indigo-500
                   bg-zinc-900/80 focus:outline-none focus:ring-1 focus:ring-indigo-500/50
-                  transition-colors placeholder:text-zinc-600"
+                  transition-colors placeholder:text-zinc-500"
                 autoFocus
               />
               <span className="text-zinc-400 text-sm font-medium">M</span>
@@ -83,7 +83,7 @@ export function SignModal({ player, onConfirm, onCancel }: Props) {
           </div>
 
           <div>
-            <label className="block text-[11px] uppercase tracking-wider text-zinc-500 mb-1.5">Years</label>
+            <label className="block text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5">Years</label>
             <input
               type="number"
               min="1"

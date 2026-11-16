@@ -27,12 +27,12 @@ function StatCard({ label, value, sub, warn, accent }: CardProps) {
           : 'border-zinc-800 bg-zinc-900/60'
         }`}
     >
-      <div className="text-[11px] uppercase tracking-widest text-zinc-500 mb-2 font-medium">{label}</div>
+      <div className="text-[11px] uppercase tracking-widest text-zinc-400 mb-2 font-medium">{label}</div>
       <div className={`text-2xl font-bold tabular-nums
         ${warn ? 'text-red-400' : accent ? 'text-indigo-300' : 'text-white'}`}>
         {neg ? '-' : ''}$<NumberTicker value={absM} decimals={1} suffix="M" />
       </div>
-      <div className={`text-[11px] mt-1 ${warn ? 'text-red-500/80' : 'text-zinc-500'}`}>{sub}</div>
+      <div className={`text-[11px] mt-1 ${warn ? 'text-red-400' : 'text-zinc-400'}`}>{sub}</div>
     </MagicCard>
   )
 }

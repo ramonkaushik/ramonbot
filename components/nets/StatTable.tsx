@@ -57,7 +57,7 @@ export function StatTable<T>({ rows, cols, rowKey, highlight, renderActions }: P
                   'px-3 py-2.5 font-medium whitespace-nowrap cursor-pointer select-none',
                   'text-[10px] uppercase tracking-widest',
                   'transition-colors duration-150',
-                  'text-zinc-500 hover:text-zinc-200',
+                  'text-zinc-400 hover:text-zinc-200',
                   col.align === 'left' ? 'text-left' : 'text-right',
                   col.sticky ? 'sticky left-0 z-10 bg-zinc-900/90 backdrop-blur-sm' : '',
                   sortKey === col.key ? 'text-indigo-400' : '',
@@ -100,7 +100,7 @@ export function StatTable<T>({ rows, cols, rowKey, highlight, renderActions }: P
                       col.sticky
                         ? 'sticky left-0 z-10 bg-zinc-900/90 backdrop-blur-sm group-hover:bg-zinc-800/60'
                         : '',
-                      val == null ? 'text-zinc-700' : 'text-zinc-300',
+                      val == null ? 'text-zinc-500' : 'text-zinc-300',
                     )}
                   >
                     {fmt(val)}

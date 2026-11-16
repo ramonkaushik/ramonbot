@@ -106,10 +106,8 @@ export default function Home() {
   ];
 
   const skills = [
-    "Java", "Python", "JavaScript", "C++", "SQL", "Go",
-    "Spring Boot", "React", "Next.js", "Flask", ".NET",
-    "Docker", "Jenkins", "Ansible", "AWS", "Azure ML",
-    "MongoDB", "PostgreSQL", "Copilot", "Claude"
+    "Java", "Go", "Python", "Postgres", "React",
+    "Flask", "Docker", "Ansible", "MongoDB", "FIX",
   ];
 
   useEffect(() => {
@@ -182,7 +180,7 @@ export default function Home() {
   const ProjectCard = ({ project, idx }: { project: typeof projects[0]; idx: number }) => {
     const inner = (
       <div className="project-card group flex gap-6 py-7 border-t border-[#1a1a1a] hover:border-[#2a2a2a] transition-colors duration-300 cursor-pointer">
-        <span className="text-[11px] text-[#2e2e2e] font-mono mt-[3px] shrink-0 w-5 select-none">
+        <span className="text-[11px] text-[#7a7a7a] font-mono mt-[3px] shrink-0 w-5 select-none">
           {String(idx + 1).padStart(2, '0')}
         </span>
         <div className="flex-1 min-w-0">
@@ -190,14 +188,14 @@ export default function Home() {
             <h3 className="text-base text-[#ccc] group-hover:text-[#eee] transition-colors duration-200">
               {project.title}
             </h3>
-            <ArrowUpRight className="w-4 h-4 text-[#2a2a2a] group-hover:text-[#555] transition-colors duration-200 shrink-0 mt-0.5" />
+            <ArrowUpRight className="w-4 h-4 text-[#666] group-hover:text-[#999] transition-colors duration-200 shrink-0 mt-0.5" />
           </div>
-          <p className="text-sm text-[#555] leading-relaxed mb-4 group-hover:text-[#666] transition-colors duration-200">
+          <p className="text-sm text-[#8a8a8a] leading-relaxed mb-4 group-hover:text-[#aaa] transition-colors duration-200">
             {project.description}
           </p>
           <div className="flex flex-wrap gap-3">
             {project.tech.map((t) => (
-              <span key={t} className="text-[10px] tracking-widest text-[#333] uppercase group-hover:text-[#444] transition-colors duration-200">
+              <span key={t} className="text-[10px] tracking-widest text-[#7a7a7a] uppercase group-hover:text-[#999] transition-colors duration-200">
                 {t}
               </span>
             ))}
@@ -215,7 +213,6 @@ export default function Home() {
   return (
     <div ref={containerRef} className="min-h-screen bg-[#0a0a0a] text-[#eee] selection:bg-[#eee] selection:text-[#0a0a0a]">
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
         
         :root {
           --black: #0a0a0a;
@@ -240,7 +237,7 @@ export default function Home() {
 
         body {
           background: var(--black);
-          font-family: 'IBM Plex Mono', monospace;
+          font-family: var(--font-plex), ui-monospace, monospace;
           font-size: 14px;
           letter-spacing: 0.01em;
           -webkit-font-smoothing: antialiased;
@@ -249,7 +246,7 @@ export default function Home() {
         }
 
         .serif {
-          font-family: 'Instrument Serif', serif;
+          font-family: var(--font-instrument), Georgia, serif;
         }
 
         ::-webkit-scrollbar {
@@ -283,7 +280,7 @@ export default function Home() {
         /* Typing cursor */
         .type-cursor {
           display: inline-block;
-          color: #555;
+          color: #888;
           margin-left: 1px;
           animation: cursor-blink 0.9s step-end infinite;
         }
@@ -392,7 +389,7 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col md:flex-row md:justify-between md:items-baseline gap-1 mb-6">
                   <p className="text-base text-[#aaa]">{job.role}</p>
-                  <span className="text-sm text-[#777]">{job.location}</span>
+                  <span className="text-sm text-[#8a8a8a]">{job.location}</span>
                 </div>
                 <ul className="space-y-3">
                   {job.highlights.map((highlight, i) => (
@@ -485,7 +482,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="px-6 py-8 border-t border-[#222]">
-        <div className="max-w-5xl mx-auto flex justify-between items-center text-sm text-[#666]">
+        <div className="max-w-5xl mx-auto flex justify-between items-center text-sm text-[#8a8a8a]">
           <span>Ten Toes Down © 2026</span>
           <span>NYC</span>
         </div>
