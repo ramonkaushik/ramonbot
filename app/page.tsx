@@ -77,7 +77,7 @@ export default function Home() {
   const projects = [
     {
       title: "Nets Front Office Tool",
-      description: "Cap & roster intelligence tool for the Brooklyn Nets. Live scenario modeling — release players, sign free agents, and watch the salary cap adjust in real time. Built as a senior full-stack engineering exercise.",
+      description: "Cap & roster intelligence tool for the Brooklyn Nets. Live scenario modeling where you can release players, sign free agents, and watch the salary cap adjust in real time. Built as a full-stack engineering exercise.",
       tech: ["React", "TypeScript", "Node.js", "SQLite", "Python", "nba_api"],
       link: "/projects/nets",
       internal: true,

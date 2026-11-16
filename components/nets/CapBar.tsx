@@ -1,6 +1,5 @@
 import type { CapSummary } from '@/components/nets/types'
 import { NumberTicker } from '@/components/nets/magicui/NumberTicker'
-import { BorderBeam } from '@/components/nets/magicui/BorderBeam'
 import { MagicCard } from '@/components/nets/magicui/MagicCard'
 
 const M = (n: number) => (n / 1e6).toFixed(1)
@@ -11,10 +10,9 @@ interface CardProps {
   sub: string
   warn?: boolean
   accent?: boolean
-  beam?: boolean
 }
 
-function StatCard({ label, value, sub, warn, accent, beam }: CardProps) {
+function StatCard({ label, value, sub, warn, accent }: CardProps) {
   const absM = Math.abs(value) / 1e6
   const neg  = value < 0
 
@@ -29,7 +27,6 @@ function StatCard({ label, value, sub, warn, accent, beam }: CardProps) {
           : 'border-zinc-800 bg-zinc-900/60'
         }`}
     >
-      {beam && <BorderBeam colorFrom="#a78bfa" colorTo="#38bdf8" duration={8} />}
       <div className="text-[11px] uppercase tracking-widest text-zinc-500 mb-2 font-medium">{label}</div>
       <div className={`text-2xl font-bold tabular-nums
         ${warn ? 'text-red-400' : accent ? 'text-indigo-300' : 'text-white'}`}>
@@ -115,7 +112,6 @@ export function CapBar({ cap }: { cap: CapSummary }) {
           value={cap.committed}
           sub={`of $${M(cap.salary_cap)}M cap`}
           accent
-          beam
         />
         <StatCard
           label="Expiring"
