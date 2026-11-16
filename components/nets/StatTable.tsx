@@ -28,19 +28,36 @@ export function StatTable<T>({ rows, cols, rowKey, highlight, renderActions }: P
   const [sortKey, setSortKey] = useState<keyof T | null>(null)
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
 
+  // Blanks sort last in either direction; strings compare alphabetically, numbers numerically.
+  const compare = (a: unknown, b: unknown): number => {
+    const aBlank = a == null || a === ''
+    const bBlank = b == null || b === ''
+    if (aBlank && bBlank) return 0
+    if (aBlank) return 1
+    if (bBlank) return -1
+    if (typeof a === 'number' && typeof b === 'number') return a - b
+    return String(a).localeCompare(String(b), 'en', { sensitivity: 'base', numeric: true })
+  }
+
   const sorted = sortKey
     ? [...rows].sort((a, b) => {
-        const av = a[sortKey] ?? -Infinity
-        const bv = b[sortKey] ?? -Infinity
-        return sortDir === 'desc'
-          ? (bv as number) - (av as number)
-          : (av as number) - (bv as number)
+        const av = a[sortKey], bv = b[sortKey]
+        const aBlank = av == null || av === ''
+        const bBlank = bv == null || bv === ''
+        if (aBlank || bBlank) return compare(av, bv)
+        const c = compare(av, bv)
+        return sortDir === 'desc' ? -c : c
       })
     : rows
 
+  const isText = (key: keyof T) => rows.some(r => typeof r[key] === 'string')
+
+  // Click cycle: text columns A→Z, then Z→A, then off. Numeric: high→low, low→high, off.
   const toggleSort = (key: keyof T) => {
-    if (sortKey === key) setSortDir(d => d === 'desc' ? 'asc' : 'desc')
-    else { setSortKey(key); setSortDir('desc') }
+    const first: 'asc' | 'desc' = isText(key) ? 'asc' : 'desc'
+    if (sortKey !== key) { setSortKey(key); setSortDir(first); return }
+    if (sortDir === first) { setSortDir(first === 'asc' ? 'desc' : 'asc'); return }
+    setSortKey(null)
   }
 
   return (
@@ -53,6 +70,7 @@ export function StatTable<T>({ rows, cols, rowKey, highlight, renderActions }: P
                 key={String(col.key)}
                 title={col.title ?? String(col.key)}
                 onClick={() => toggleSort(col.key)}
+                aria-sort={sortKey === col.key ? (sortDir === 'desc' ? 'descending' : 'ascending') : 'none'}
                 className={cn(
                   'px-3 py-2.5 font-medium whitespace-nowrap cursor-pointer select-none',
                   'text-[10px] uppercase tracking-widest',
