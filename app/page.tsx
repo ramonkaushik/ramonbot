@@ -83,13 +83,6 @@ export default function Home() {
       internal: true,
     },
     {
-      title: "Electronic Press Kit",
-      description: "EPK and mastering service page. for for DJs, producers, & labels.",
-      tech: ["GSAP", "Next.js"],
-      link: "/projects/audio-services",
-      internal: true,
-    },
-    {
       title: "\"Not a Financial Advisor\" Agent",
       description: "AI agent that can help you understand financial decisions and the market. Built with Langchain and gets news from Alpha Vantage API",
       tech: ["LangChain", "GPT-4", "Alpha Vantage API", "Next.js"],
@@ -344,9 +337,6 @@ export default function Home() {
             >
               software <ArrowUpRight className="w-4 h-4" />
             </button>
-            <Link href="/projects/audio-services" className="flex items-center gap-2 hover:text-[#eee] transition-colors">
-              music <ArrowUpRight className="w-4 h-4" />
-            </Link>
           </div>
         </div>
       </section>
